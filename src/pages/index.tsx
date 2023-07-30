@@ -4,7 +4,8 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data } = api.vendors.getAll.useQuery();
 
   const user = useUser();
 
@@ -18,6 +19,11 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         {!user.isSignedIn && <SignInButton />}
         {!!user.isSignedIn && <SignOutButton />}
+        <div>
+          {data?.map((vendor) => (
+            <div key={vendor.id}>{vendor.name} </div>
+          ))}
+        </div>
       </main>
     </>
   );
